@@ -1,5 +1,12 @@
 name: Hprofile actions
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: gitactionsapp
@@ -24,7 +31,7 @@ jobs:
           java-version: '11'
       - name: Setup SonarScanner
         uses: warchant/setup-sonar-scanner@v7
-        
+
       - name: Проверка доступности SonarQube
         run: |
           curl -I "${{ secrets.SONAR_URL }}" || exit 1
