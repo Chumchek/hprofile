@@ -61,7 +61,7 @@ jobs:
           pollingTimeoutSec: 300
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
+         # SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
           ACTIONS_RUNNER_DEBUG: true  # Включаем отладку для этого шага Включаем вывод debug для действия
   BUILD_AND_PUBLISH:
     needs: Testing
