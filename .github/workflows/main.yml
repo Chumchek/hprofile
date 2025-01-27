@@ -24,6 +24,11 @@ jobs:
           java-version: '11'
       - name: Setup SonarScanner
         uses: warchant/setup-sonar-scanner@v7
+        
+      - name: Проверка доступности SonarQube
+        run: |
+          curl -I "${{ secrets.SONAR_URL }}" || exit 1
+      
       # Run sonar-scanner
       - name: SonarQube Scan
         run: sonar-scanner
