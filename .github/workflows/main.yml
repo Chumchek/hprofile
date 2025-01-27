@@ -54,14 +54,27 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
+      - name: Debug SonarQube URL and Token
+        run: |
+           echo "SONAR_URL is ${{ secrets.SONAR_URL }}"
+           echo "SONAR_TOKEN is ${{ secrets.SONAR_TOKEN }}"
+      - name: Check Quality Gate status
+        run: |
+          response=$(curl -s -w "%{http_code}" -o /tmp/sonar_response.txt -u "${{ secrets.SONAR_TOKEN }}:" "$SONAR_HOST_URL/api/qualitygates/project_status?projectKey=hprofile1927_actionscode")
+          if [ "$response" -ne 200 ]; then
+            echo "Error: Received HTTP code $response"
+            cat /tmp/sonar_response.txt
+            exit 1
+          fi
+
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
         uses: sonarsource/sonarqube-quality-gate-action@master
         with:
-          pollingTimeoutSec: 300
+          pollingTimeoutSec: 100
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         # SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
           ACTIONS_RUNNER_DEBUG: true  # Включаем отладку для этого шага Включаем вывод debug для действия
   BUILD_AND_PUBLISH:
     needs: Testing
