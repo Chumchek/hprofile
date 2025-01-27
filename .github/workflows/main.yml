@@ -43,7 +43,7 @@ jobs:
           pollingTimeoutSec: 300
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR__URL }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
     
   BUILD_AND_PUBLISH:
     needs: Testing
