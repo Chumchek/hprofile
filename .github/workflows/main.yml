@@ -41,6 +41,7 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR__URL }}
     
   BUILD_AND_PUBLISH:
+    needs: Testing
     runs-on: ubuntu-latest
     steps:
       - name: Code checkout
